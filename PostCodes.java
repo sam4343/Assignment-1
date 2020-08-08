@@ -6,7 +6,7 @@ import java.util.Scanner;
  *
  * Postcode Printer -- Driver
  *
- * Author: Sam von Stieglitz
+ * Author: Sam von Stieglitz/ **PARTNER NAME**
  * Date: 4/8/2020
  */
 
