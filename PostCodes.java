@@ -6,7 +6,7 @@ import java.util.Scanner;
  *
  * Postcode Printer -- Driver
  *
- * Author: Sam von Stieglitz/ **PARTNER NAME**
+ * Author: Sam von Stieglitz / **PARTNER NAME**
  * Date: 4/8/2020
  */
 
@@ -642,9 +642,7 @@ public class PostCodes {
     
     public PostCodes(){
         sc = new Scanner(System.in);
-        System.out.println("Tasmanian Postcodes");
-        
-        
+        System.out.println("Tasmanian Postcodes");  
     }
     
     public void configure(){
@@ -653,11 +651,13 @@ public class PostCodes {
         System.out.println("Print every suburb for each selected postcode [Y/N]:");
         temp = sc.nextLine().charAt(0);
         
-        if(temp == 'y' || temp == 'n'){
+        if(temp == 'y'){
             show = true;
+        }else if(temp == 'n'){
+            show = false;
         }else{
             System.out.println("...N assumed...");
-            show = false;
+            show = false; 
         }
         
         System.out.println("Enter number of first postcode to print:");
@@ -670,7 +670,6 @@ public class PostCodes {
     }
     
     public void printTables(){
-        
-    }
     
+    }
 }
