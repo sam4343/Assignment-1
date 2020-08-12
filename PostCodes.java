@@ -646,30 +646,102 @@ public class PostCodes {
     }
     
     public void configure(){
-        char temp;
+        char temp; //Temp variable to store the users input from scanner
         
         System.out.println("Print every suburb for each selected postcode [Y/N]:");
-        temp = sc.nextLine().charAt(0);
+        temp = sc.nextLine().charAt(0); //Selects the first char of the users input
         
-        if(temp == 'y'){
+        if(temp == 'y' || temp == 'Y'){ //Checks users input for either a Y or a N
             show = true;
-        }else if(temp == 'n'){
+        }else if(temp == 'n' || temp == 'N'){
             show = false;
         }else{
-            System.out.println("...N assumed...");
+            System.out.println("...N assumed..."); //If users input if neither assumes input is N
             show = false; 
         }
         
         System.out.println("Enter number of first postcode to print:");
-        start = sc.nextInt();
+        start = sc.nextInt(); //Collects first postcode from users input
         sc.nextLine();
+        if(start < MIN){ //If users input is lower than the lowest postcode, it is set to the smallest
+            System.out.println("...7000 assumed...");
+            start = MIN;
+        }
+        
         System.out.println("Enter number of last postcode to print:");
-        stop = sc.nextInt();
+        stop = sc.nextInt(); //Collects last postcode from users input
         sc.nextLine();
+        if(stop > MAX){ //If users input is higher than the highest postcode, it is set to the largest
+            System.out.println("...7470 assumed...");
+            stop = MAX;
+        }
         
     }
     
     public void printTables(){
-    
+        Boolean found = false; //Boolean checks for if the start and stop have found their equivelant index's or if it needs to repeat
+        int count = 0; //Count keeps track of all the characters on a line
+        
+        for(int i = 0; i < NUM_POSTCODES; i++){ //Loops through and finds the index for the starting postcode
+            if(start == Integer.valueOf(POSTCODES[i][POSTCODE])){
+                start = i;
+                found = true;
+                break; //GET RID OF THIS
+            }
+            if(i == NUM_POSTCODES - 1 && !found){ //If it has looped through and not found a corresponding postcode, indents the
+                start = start + 1;                //starting postcode by 1 and goes through again
+                i = 0;
+            }
+        }
+        
+        found = false; //Resets the found variable for use in other for loop
+        
+        for(int i = 0; i < NUM_POSTCODES; i++){ //Loops through and finds the index for the stopping postcode
+            if(stop == Integer.valueOf(POSTCODES[i][POSTCODE])){
+                stop = i;
+                break;
+            }
+            if(i == NUM_POSTCODES - 1 && !found){ //If it has looped through and not found a corresponding postcode, indents the
+                stop = stop + 1;                  //stopping postcode by 1 and goes through again
+                i = 0;
+            }
+        }
+        
+        
+        if(show == false){
+            for(int i = start; i <= stop; i++){ 
+                if(start == i || POSTCODES[i][POSTCODE] != POSTCODES[i-1][POSTCODE]){
+                    System.out.print(POSTCODES[i][POSTCODE] + "        "); //CHANGE INDENTS / FIX RESET OF COUNT FROM 12 TO ?
+                    System.out.print(POSTCODES[i][NAME]);
+                    System.out.println();     
+                }
+            }     
+        }else{
+            for(int i = start; i <= stop; i++){              
+                if(start == i || POSTCODES[i][POSTCODE] != POSTCODES[i-1][POSTCODE]){ //Is true if previous postcode is different to the current one
+                    System.out.println();
+                    
+                    count = 12;
+                    count = count + POSTCODES[i][NAME].length() + 2;
+                    
+                    System.out.print(POSTCODES[i][POSTCODE] + "        "); //CHANGE INDENTS / FIX RESET OF COUNT FROM 12 TO ?
+                    System.out.print(POSTCODES[i][NAME]);
+                }else{
+                    if((count + POSTCODES[i][NAME].length() + 2) > 80){
+                        System.out.print(",");
+                        System.out.println();
+                        System.out.print("            "); //CHANGE INDENTS / FIX RESET OF COUNT FROM 12 TO ?
+                        
+                        count = 12;
+                        count = count + POSTCODES[i][NAME].length() + 2;
+                        
+                        System.out.print(POSTCODES[i][NAME]);
+                    }else{    
+                        count = count + POSTCODES[i][NAME].length() + 2;
+                        System.out.print(", " + POSTCODES[i][NAME]); 
+                    }
+                }
+            }   
+        }
     }
 }
